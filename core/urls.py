@@ -20,10 +20,12 @@ from authentication.views import RegistrationAPIView
 from rest_framework import routers
 from categories import views as category_views
 from companies import views as company_views
+from products import views as product_views
 
 router = routers.DefaultRouter()
 router.register(r'categories', category_views.CategoryViewSet)
 router.register(r'companies', company_views.CompanyViewSet)
+router.register(r'products', product_views.ProductViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
