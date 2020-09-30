@@ -19,9 +19,11 @@ from rest_framework.authtoken import views
 from authentication.views import RegistrationAPIView
 from rest_framework import routers
 from categories import views as category_views
+from companies import views as company_views
 
 router = routers.DefaultRouter()
 router.register(r'categories', category_views.CategoryViewSet)
+router.register(r'companies', company_views.CompanyViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
