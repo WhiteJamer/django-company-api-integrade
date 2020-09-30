@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from authentication.models import User
-from rest_framework import status
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
