@@ -37,7 +37,7 @@ services:
     volumes:
       - /usr/local/var/postgres:/var/lib/postgres/data/pgdata
     env_file:
-      - prod.env
+      - dev.env
     ports:
       - 5432:5432
     expose:
