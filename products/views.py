@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from .models import Product
 from .serializers import ProductSerializer
-
+import requests
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.filter(is_active=True)

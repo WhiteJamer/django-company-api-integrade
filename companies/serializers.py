@@ -6,4 +6,4 @@ class CompanySerializer(serializers.ModelSerializer):
     is_active = serializers.BooleanField(default=True)
     class Meta:
         model = Company
-        fields = ('id', 'description', 'is_active')
+        fields = ('id', 'name', 'description', 'is_active', 'is_imported')

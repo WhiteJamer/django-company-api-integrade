@@ -1,0 +1,44 @@
+version: '2.1'
+
+services:
+  web:
+    build:
+      context: .
+#   Перезагружать контейнер при ошибках
+    restart: on-failure
+#   Все пароли и ключи лучше хранить в .env-файле
+    env_file:
+      - dev.env
+#   Порты для nginx
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+#   Поднимать только после БД
+    depends_on:
+      - db
+#   Советую делать волюм с кодом, тогда не придется 
+#   перебилдивать контейнер каждый раз
+    volumes:
+      - ../:/app
+#   Запускаем сервер
+    command: bash -c "python manage.py runserver"
+
+
+  db:
+#   Используем официальные postgis-image
+    image: postgis/postgis:latest
+    restart: on-failure
+#   Насадил новую базу на старую дату
+#   P.S. Всегда стоит делать волюм у базы, чтобы 
+#     не потерять все данные при перебилдивании
+#   Для кастомной папки с данными задаем в prod.env 
+#     переменную PGDATA=/var/lib/postgres/data/pgdata
+    volumes:
+      - /usr/local/var/postgres:/var/lib/postgres/data/pgdata
+    env_file:
+      - prod.env
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
