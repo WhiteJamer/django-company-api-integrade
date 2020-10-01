@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 
 
 class Company(models.Model):
@@ -6,7 +6,8 @@ class Company(models.Model):
     description = models.TextField("Описание", null=True, blank=True)
     is_active = models.BooleanField("Активна?", default=True)
     is_imported=models.BooleanField("Был импортирован?", default=False)
-    original_id = models.IntegerField("Исходный ID", null=True, blank=True) 
+    location = models.PointField(null=True)
+    
 
     def __str__(self):
         return self.name or self.description
