@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Company
 from .serializers import CompanySerializer
 
+
 class CompanyTestCase(TestCase):
 
     def setUp(self):
