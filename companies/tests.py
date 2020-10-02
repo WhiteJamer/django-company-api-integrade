@@ -2,6 +2,10 @@ from django.test import TestCase
 from .models import Company
 from .serializers import CompanySerializer
 from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase, APIClient
+from authentication.models import User
+from rest_framework.authtoken.models import Token
 
 
 class CompanyTestCase(TestCase):
@@ -53,5 +57,35 @@ class CompanyTestCase(TestCase):
         detail_url = reverse("companies-detail", args=[1])
         self.assertEqual(list_url, "/companies/")
         self.assertEqual(detail_url, "/companies/1/")
+    def test_companies_urls_statuses(self):
+        list_url = reverse("companies-list")
+        detail_url = reverse("companies-detail", args=[1])
+        self.assertEqual(list_url, "/companies/")
+        self.assertEqual(detail_url, "/companies/1/")
+
+
+class URLTest(APITestCase):
+
+    def setUp(self):
+        self.client = APIClient()
+        self.company = Company.objects.create(name="Company", description="Description")
+
+        # Создаем юзера и генерируем для него токен, чтобы использовать это для урлов где нужна авторизация.
+        self.user = User.objects.create_user(username="user", password="123")
+        # self.token = Token.objects.create(user_id=self.user.id)
+        self.client.force_authenticate(user=self.user)
+
+
+    def test_companies_urls_statuses(self):
+        list_url = reverse("companies-list")
+        detail_url = reverse("companies-detail", args=[self.company.id])
+
+        headers = {}
+        data = {'name': "NewName", 'description': "NewDescription"}
+
+        self.assertEqual(self.client.get(list_url).status_code, status.HTTP_200_OK)
+        self.assertEqual(self.client.get(detail_url).status_code, status.HTTP_200_OK)
+        self.assertEqual(self.client.post(list_url, headers=headers, data=data, format="json").status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.client.put(detail_url, headers=headers, data=data, format="json").status_code, status.HTTP_200_OK)
 
 
