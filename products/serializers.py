@@ -6,4 +6,4 @@ class ProductSerializer(serializers.ModelSerializer):
     is_active = serializers.BooleanField(default=True)
     class Meta:
         model = Product
-        fields = ('id', 'description', 'is_active', 'is_imported', "company")
+        fields = ('id', 'title', 'description', 'is_active', 'category', 'company', 'is_imported',)
