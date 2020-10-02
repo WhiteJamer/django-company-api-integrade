@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import Category
 from .serializers import CategorySerializer
+from django.urls import reverse
 
 
 class CategoryTestCase(TestCase):
@@ -30,3 +31,9 @@ class CategoryTestCase(TestCase):
     def test_title_field_content(self):
         data = self.serializer.data
         self.assertEqual(data['title'], self.category_attributes['title'])
+
+    def test_categories_urls(self):
+        list_url = reverse("categories-list")
+        detail_url = reverse("categories-detail", args=[1])
+        self.assertEqual(list_url, "/categories/")
+        self.assertEqual(detail_url, "/categories/1/")

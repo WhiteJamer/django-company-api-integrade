@@ -23,13 +23,13 @@ from companies import views as company_views
 from products import views as product_views
 
 router = routers.DefaultRouter()
-router.register(r'categories', category_views.CategoryViewSet)
-router.register(r'companies', company_views.CompanyViewSet)
-router.register(r'products', product_views.ProductViewSet)
+router.register(r'categories', category_views.CategoryViewSet, basename="categories")
+router.register(r'companies', company_views.CompanyViewSet, basename="companies")
+router.register(r'products', product_views.ProductViewSet, basename="products")
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('log-in/', views.obtain_auth_token), # авторизация
-    path('sign-up/', RegistrationAPIView.as_view()) # регистрация
+    path('log-in/', views.obtain_auth_token, name="login"), # авторизация
+    path('sign-up/', RegistrationAPIView.as_view(), name="sign-up") # регистрация
 ]

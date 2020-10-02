@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import Company
 from .serializers import CompanySerializer
+from django.urls import reverse
 
 
 class CompanyTestCase(TestCase):
@@ -30,10 +31,12 @@ class CompanyTestCase(TestCase):
     def test_contains_expected_fields(self):
         data = self.serializer_data
         self.assertEqual(set(data.keys()), set(['name', 'description']))
+    
     def test_name_field_content(self):
         data = self.serializer.data
         self.assertEqual(data['name'], self.company_attributes['name'])
         self.assertEqual(data['description'], self.company_attributes['description'])
+    
     def test_is_active_field(self):
         c1 = CompanySerializer(data=self.serializer_data)
         c1.is_valid()
@@ -44,5 +47,11 @@ class CompanyTestCase(TestCase):
         c2 = c2.save()
         self.assertEqual(c1.is_active, True)
         self.assertEqual(c2.is_active, False)
+    
+    def test_companies_urls(self):
+        list_url = reverse("companies-list")
+        detail_url = reverse("companies-detail", args=[1])
+        self.assertEqual(list_url, "/companies/")
+        self.assertEqual(detail_url, "/companies/1/")
 
 

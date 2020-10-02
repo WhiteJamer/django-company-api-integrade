@@ -3,6 +3,7 @@ from .models import Product
 from .serializers import ProductSerializer
 from companies.models import Company
 from categories.models import Category
+from django.urls import reverse
 
 class ProductTestCase(TestCase):
     def setUp(self):
@@ -63,3 +64,9 @@ class ProductTestCase(TestCase):
         self.assertEqual(data['description'], self.product_attributes['description'])
         self.assertEqual(data['category'], self.product_attributes['category'].id)
         self.assertEqual(data['company'], self.product_attributes['company'].id)
+
+    def test_product_urls(self):
+        list_url = reverse("products-list")
+        detail_url = reverse("products-detail", args=[1])
+        self.assertEqual(list_url, "/products/")
+        self.assertEqual(detail_url, "/products/1/")

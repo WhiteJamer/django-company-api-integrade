@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
+from django.urls import reverse
 
 class ProductTestCase(TestCase):
     def setUp(self):
@@ -20,4 +21,9 @@ class ProductTestCase(TestCase):
         user2 = authenticate(username=user2.username, password="123534")
         self.assertNotEqual(user1, None)
         self.assertNotEqual(user2, None)
-        
+    
+    def test_product_urls(self):
+        login_url = reverse("login")
+        sign_up_url = reverse("sign-up")
+        self.assertEqual(login_url, "/log-in/")
+        self.assertEqual(sign_up_url, "/sign-up/")
